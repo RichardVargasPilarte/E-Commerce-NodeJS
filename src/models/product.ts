@@ -9,7 +9,7 @@ export interface IProduct extends Document {
   category: Types.ObjectId;
   image?: string;
   state: boolean;
-  createdAt: Date;
+  brand: Types.ObjectId;
 }
 
 const ProductSchema = new Schema<IProduct>({
@@ -46,10 +46,13 @@ const ProductSchema = new Schema<IProduct>({
     type: Boolean,
     default: true
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  brand: {
+    type: Schema.Types.ObjectId,
+    ref: 'Brand',
+    required: true,
   }
+}, {
+  timestamps: true
 });
 
 ProductSchema.methods.toJSON = function () {

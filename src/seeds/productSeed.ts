@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Product from './../models/product';
 import Category from './../models/category';
+import Brand from './../models/brand';
 
 dotenv.config();
 
@@ -13,82 +14,97 @@ const seedProducts = async () => {
     console.log('🟢 Connected to MongoDB for seeding products');
 
     const categories = await Category.find();
+    const brands = await Brand.find();
 
     if (categories.length < 10) {
-      throw new Error('❗ You need 10 categories to seed 10 products.');
+      throw new Error('❗ You need at least 10 categories to seed products.');
+    }
+
+    if (brands.length < 10) {
+      throw new Error('❗ You need at least 10 brands to seed products.');
     }
 
     const products = [
       {
-        name: 'Bluetooth Speaker',
-        description: 'Portable speaker with high-quality sound and Bluetooth 5.0',
-        price: 49.99,
-        stock: 100,
+        name: 'iPhone 14 Pro',
+        description: 'Smartphone with A16 Bionic chip and ProMotion display',
+        price: 999.99,
+        stock: 50,
         category: categories.find(c => c.name === 'Electronics')?._id,
+        brand: brands.find(b => b.name === 'Apple')?._id,
       },
       {
-        name: 'Men\'s Casual T-Shirt',
-        description: '100% cotton slim-fit t-shirt',
-        price: 19.99,
-        stock: 200,
-        category: categories.find(c => c.name === 'Clothing')?._id,
-      },
-      {
-        name: 'Non-stick Frying Pan',
-        description: 'Durable frying pan with ceramic coating',
-        price: 25.00,
-        stock: 150,
-        category: categories.find(c => c.name === 'Home & Kitchen')?._id,
-      },
-      {
-        name: 'Yoga Mat',
-        description: 'Eco-friendly yoga mat with anti-slip surface',
-        price: 29.99,
-        stock: 120,
-        category: categories.find(c => c.name === 'Sports')?._id,
-      },
-      {
-        name: 'Facial Cleanser',
-        description: 'Gentle foaming cleanser for all skin types',
-        price: 12.50,
-        stock: 90,
-        category: categories.find(c => c.name === 'Beauty & Personal Care')?._id,
-      },
-      {
-        name: 'Educational Puzzle',
-        description: 'Colorful puzzle game for children aged 4+',
-        price: 14.99,
-        stock: 80,
-        category: categories.find(c => c.name === 'Toys')?._id,
-      },
-      {
-        name: 'Thriller Novel: Dark Days',
-        description: 'Bestselling thriller novel with unexpected twists',
-        price: 9.99,
-        stock: 300,
-        category: categories.find(c => c.name === 'Books')?._id,
-      },
-      {
-        name: 'Dog Chew Toy',
-        description: 'Durable rubber toy for dogs of all sizes',
-        price: 8.75,
+        name: 'Galaxy S23 Ultra',
+        description: 'Samsung flagship phone with top-tier performance and camera',
+        price: 949.99,
         stock: 60,
-        category: categories.find(c => c.name === 'Pet Supplies')?._id,
+        category: categories.find(c => c.name === 'Electronics')?._id,
+        brand: brands.find(b => b.name === 'Samsung')?._id,
       },
       {
-        name: 'Wireless Keyboard & Mouse Combo',
-        description: 'Ergonomic wireless peripherals with long battery life',
-        price: 39.99,
+        name: 'Nike Air Max',
+        description: 'Comfortable and stylish running shoes',
+        price: 120.00,
+        stock: 100,
+        category: categories.find(c => c.name === 'Clothing')?._id,
+        brand: brands.find(b => b.name === 'Nike')?._id,
+      },
+      {
+        name: 'Adidas Ultraboost',
+        description: 'High-performance running shoes with responsive cushioning',
+        price: 130.00,
+        stock: 80,
+        category: categories.find(c => c.name === 'Clothing')?._id,
+        brand: brands.find(b => b.name === 'Adidas')?._id,
+      },
+      {
+        name: 'Sony WH-1000XM5',
+        description: 'Noise cancelling wireless headphones',
+        price: 349.99,
         stock: 70,
         category: categories.find(c => c.name === 'Technology')?._id,
+        brand: brands.find(b => b.name === 'Sony')?._id,
       },
       {
-        name: 'Car Phone Mount',
-        description: '360° rotating mount for dashboard or windshield',
-        price: 11.99,
-        stock: 110,
-        category: categories.find(c => c.name === 'Automotive')?._id,
-      }
+        name: 'LG OLED TV 55"',
+        description: '4K Smart OLED TV with AI Picture Pro',
+        price: 1199.99,
+        stock: 40,
+        category: categories.find(c => c.name === 'Home & Kitchen')?._id,
+        brand: brands.find(b => b.name === 'LG')?._id,
+      },
+      {
+        name: 'Dell XPS 13',
+        description: 'Compact and powerful ultrabook with InfinityEdge display',
+        price: 1099.99,
+        stock: 30,
+        category: categories.find(c => c.name === 'Technology')?._id,
+        brand: brands.find(b => b.name === 'Dell')?._id,
+      },
+      {
+        name: 'HP Envy Printer',
+        description: 'All-in-one wireless printer with mobile printing',
+        price: 149.99,
+        stock: 90,
+        category: categories.find(c => c.name === 'Technology')?._id,
+        brand: brands.find(b => b.name === 'HP')?._id,
+      },
+      {
+        name: 'Lenovo ThinkPad E15',
+        description: 'Business laptop with powerful performance and security features',
+        price: 899.99,
+        stock: 40,
+        category: categories.find(c => c.name === 'Technology')?._id,
+        brand: brands.find(b => b.name === 'Lenovo')?._id,
+      },
+      {
+        name: 'Under Armour Sports T-Shirt',
+        description: 'Lightweight and breathable training shirt',
+        price: 34.99,
+        stock: 150,
+        category: categories.find(c => c.name === 'Sports')?._id,
+        brand: brands.find(b => b.name === 'Under Armour')?._id,
+      },
     ];
 
     await Product.deleteMany(); // Clean previous entries
