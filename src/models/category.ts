@@ -4,7 +4,6 @@ export interface ICategory extends Document {
   name: string;
   description?: string;
   state: boolean;
-  createdAt: Date;
 }
 
 const CategorySchema = new Schema<ICategory>({
@@ -21,11 +20,9 @@ const CategorySchema = new Schema<ICategory>({
   state: {
     type: Boolean,
     default: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
   }
+}, {
+  timestamps: true
 });
 
 CategorySchema.methods.toJSON = function () {
