@@ -1,14 +1,23 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export type userRole = 'admin' | 'cliente' | 'vendedor';
+export enum UserRole {
+  ADMIN = 'admin',
+  SELLER = 'seller',
+  CUSTOMER = 'customer'
+}
 
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  role: userRole;
-  createdAt: Date;
+  username: string;
+  phone?: string;
+  address?: string;
+  is_active: boolean;
+  avatar?: string;
+  userRole: UserRole;
 }
+
 
 const UserSchema = new Schema<IUser>({
   name: {
@@ -27,22 +36,39 @@ const UserSchema = new Schema<IUser>({
     type: String,
     required: true
   },
-  role: {
+  username: {
     type: String,
-    enum: ['admin', 'cliente', 'vendedor'],
-    default: 'cliente'
+    unique: true,
+    required: true,
+    trim: true
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  phone: {
+    type: String,
+    unique: true,
+    trim: true
+  },
+  address: {
+    type: String,
+    trim: true
+  },
+  userRole: {
+    type: String,
+    enum: Object.values(UserRole),
+    default: UserRole.CUSTOMER
+  },
+  is_active: {
+    type: Boolean,
+    default: true
+  },
+  avatar: {
+    type: String
   }
 });
 
-UserSchema.methods.toJSON = function() {
-    const {__v, _id, password, ...object} = this.toObject();
-
-    object.uid = _id;
-    return object;
+UserSchema.methods.toJSON = function () {
+  const { __v, _id, password, ...object } = this.toObject();
+  object.uid = _id;
+  return object;
 }
 
 export default mongoose.model<IUser>('User', UserSchema);
