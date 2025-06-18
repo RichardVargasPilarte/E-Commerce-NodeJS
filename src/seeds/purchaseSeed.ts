@@ -4,6 +4,7 @@ import Purchase from './../models/purchase';
 import PurchaseItem from './../models/purchaseItem';
 import Product from './../models/product';
 import Supplier from './../models/supplier';
+import User from './../models/user'; // ✅ Importa el modelo User
 
 dotenv.config();
 
@@ -12,31 +13,36 @@ async function seedPurchases() {
         await mongoose.connect(process.env.MONGO_URI!);
         console.log('🟢 MongoDB connected');
 
-        // Get Supplier and Existing Products
-        const supplier = await Supplier.findOne(); // Just for the example
-        const products = await Product.find().limit(2); // 2 products per purchase
+        // ✅ Buscar un usuario existente (por ejemplo, el admin)
+        const user = await User.findOne({ userRole: { $in: ['admin', 'seller'] } });
+        if (!user) throw new Error('No admin or seller user found. Please seed users first.');
+
+        // Buscar proveedor y productos
+        const supplier = await Supplier.findOne();
+        const products = await Product.find().limit(2);
 
         if (!supplier || products.length < 2) {
             throw new Error('At least 1 supplier and 2 products in the database are needed');
         }
 
-        // Create the purchase
+        // Crear la compra
         const purchase = new Purchase({
             supplier: supplier._id,
             reference_code: 'PUR-20240601-001',
             date: new Date(),
-            total_amount: 0, // will be updated after the items are added
+            total_amount: 0,
             status: 'received',
-            notes: 'Initial Supplier Purchase'
+            notes: 'Initial Supplier Purchase',
+            created_by: user._id // ✅ Añade el usuario creador
         });
 
         await purchase.save();
 
-        // Create the items related to the purchase
+        // Crear ítems
         let total = 0;
         for (const product of products) {
             const quantity = Math.floor(Math.random() * 10) + 1;
-            const unit_price = product.price || 10; // Example Value
+            const unit_price = product.price || 10;
             const subtotal = quantity * unit_price;
 
             await PurchaseItem.create({
@@ -50,7 +56,7 @@ async function seedPurchases() {
             total += subtotal;
         }
 
-        // Update the total at checkout
+        // Actualizar total
         purchase.total_amount = total;
         await purchase.save();
 

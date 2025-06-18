@@ -13,6 +13,7 @@ export interface IPurchase extends Document {
     status: PurchaseStatus;
     notes?: string;
     supplier: mongoose.Types.ObjectId;
+    created_by: mongoose.Types.ObjectId;
 }
 
 
@@ -45,6 +46,11 @@ const PurchaseSchema = new Schema<IPurchase>({
         ref: 'Supplier',
         required: true
     },
+    created_by: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 }, {
     timestamps: true
 });
