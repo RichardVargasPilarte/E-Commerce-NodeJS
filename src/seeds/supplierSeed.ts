@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Supplier from './../models/supplier';
+import Supplier from '@models/supplier';
 
 dotenv.config();
 

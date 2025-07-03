@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import ShippingAddress from './../models/shippingAddress';
-import User from './../models/user';
+import ShippingAddress from '@models/shippingAddress';
+import User from '@models/user';
 
 dotenv.config();
 const DB_URI = process.env.MONGO_URI || '';

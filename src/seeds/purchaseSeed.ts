@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Purchase from './../models/purchase';
-import PurchaseItem from './../models/purchaseItem';
-import Product from './../models/product';
-import Supplier from './../models/supplier';
-import User from './../models/user'; // ✅ Importa el modelo User
+import Purchase from '@models/purchase';
+import PurchaseItem from '@models/purchaseItem';
+import Product from '@models/product';
+import Supplier from '@models/supplier';
+import User from '@models/user';
 
 dotenv.config();
 

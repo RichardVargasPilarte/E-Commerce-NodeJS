@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Brand from './../models/brand';
+import Brand from '@models/brand';
 
 dotenv.config();
 

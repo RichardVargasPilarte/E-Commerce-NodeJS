@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Payment, { PaymentMethod, PaymentStatus } from './../models/payment';
-import Order from './../models/order';
+import Payment, { PaymentMethod, PaymentStatus } from '@models/payment';
+import Order from '@models/order';
 
 dotenv.config();
 

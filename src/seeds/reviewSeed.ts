@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Review from './../models/review';
-import Product from './../models/product';
-import User from './../models/user';
+import Review from '@models/review';
+import Product from '@models/product';
+import User from '@models/user';
 
 dotenv.config();
 
